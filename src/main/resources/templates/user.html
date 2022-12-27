@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>User page</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        #btnUser {
+            text-align: left !important;
+            padding: 5px;
+        }
+
+        .table caption {
+            border: inherit;
+            background-color: lightgrey;
+            caption-side: top;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+        <span class="navbar-brand">
+            <b sec:authentication="name">Username</b>
+            with roles
+            <span sec:authentication="principal.authorities"></span>
+        </span>
+            <a class="btn btn-dark px-3 me-2" th:href="@{/logout}">
+                Logout
+            </a>
+        </div>
+    </nav>
+
+    <br/>
+
+    <div class="row flex-nowrap">
+        <!-- left sidebar -->
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
+            <div class="d-flex flex-column">
+                <ul class="nav flex-column">
+                    <li sec:authorize="hasAuthority('ROLE_ADMIN')" class="nav-item">
+                        <a th:href="@{/admin/}" class="nav-link align-middle px-0" id="btnAllUser">
+                            Admin
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/user/}" class="btn btn-primary col-12" id="btnUser">
+                            User
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- end of left sidebar -->
+        <!-- main content -->
+        <div class="col py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1> User information-page </h1>
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                    <caption>About user</caption>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div sec:authentication="principal.id"></div>
+                        </td>
+                        <td>
+                            <div sec:authentication="principal.firstName"></div>
+                        </td>
+                        <td>
+                            <div sec:authentication="principal.lastName"></div>
+                        </td>
+                        <td>
+                            <div sec:authentication="principal.age"></div>
+                        </td>
+                        <td>
+                            <div sec:authentication="principal.email"></div>
+                        </td>
+                        <td>
+                            <div sec:authentication="principal.authorities"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</body>
+</html>
