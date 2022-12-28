@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Service
 public class UserValidationService {
-    UserService userService;
+    private UserService userService;
 
     public UserValidationService(UserService userService) {
         this.userService = userService;

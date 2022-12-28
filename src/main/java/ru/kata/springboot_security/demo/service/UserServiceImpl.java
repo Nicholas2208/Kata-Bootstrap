@@ -17,14 +17,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
 
     public UserServiceImpl(UserRepository repository,
-                           PasswordEncoder passwordEncoder,
-                           RoleRepository roleRepository) {
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = repository;
         this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -39,18 +36,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void update(long id, User user) {
+        User userFromDb = userRepository.findById(user.getId()).get();
         if (user.getPassword().length() == 0) {
-            User userFromDb = userRepository.findById(user.getId()).get();
             user.setPassword(userFromDb.getPassword());
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
         if (user.getRoles() == null) {
-            User userFromDb = userRepository.findById(user.getId()).get();
             user.setRoles(userFromDb.getRoles());
-        } else {
-            User userFromDb = userRepository.findById(user.getId()).get();
+        }
+        if (userFromDb.getRoles().size() == 1) {
             user.addRoles(userFromDb.getRoles());
         }
 

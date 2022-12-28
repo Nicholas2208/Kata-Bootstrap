@@ -33,11 +33,11 @@ public class AdminController {
     @GetMapping("/")
     public String getAllUsers(Model model) {
         List<User> allUsers = userService.getAll();
-        model.addAttribute("allUsers", allUsers);
-
-        User form = new User();
-        model.addAttribute("appUserForm", form);
         Set<Role> roles = roleService.getAllRoles();
+        User form = new User();
+
+        model.addAttribute("allUsers", allUsers);
+        model.addAttribute("appUserForm", form);
         model.addAttribute("roles", roles);
 
         return "list_users";

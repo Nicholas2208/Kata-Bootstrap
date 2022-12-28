@@ -35,9 +35,7 @@ public class WebSecurityConfig {
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
-                .permitAll()
-                .and()
-                .exceptionHandling().accessDeniedPage("/403");
+                .permitAll();
 
         return http.build();
     }
